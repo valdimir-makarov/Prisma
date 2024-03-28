@@ -2,21 +2,21 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-async function main() {
- 
-
-  
-
-  try {    
-    const  res = await prisma.user.findMany()
-    console.log(res)
-
+async function createUser(email: string, name?: string): Promise<void> {
+  try {
+    await prisma.user.create({
+      data: {
+        email,
+        name,
+      },
+    });
+    console.log('User created successfully');
   } catch (error) {
-    console.error(error);
-    process.exit(1);
+    console.error('Error creating user:', error);
   } finally {
     await prisma.$disconnect();
   }
 }
 
-main();
+// Example usage:
+createUser('exampldfde@example.com', 'John Doe');
